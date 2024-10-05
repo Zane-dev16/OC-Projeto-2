@@ -4,7 +4,7 @@
 #include <stdlib.h> // exit()
 #include <string.h>
 
-#define N 512
+#define N 1024
 #define CACHE_LINE_SIZE 1 // TODO: update this value
 
 #define SUB_MATRIX_SIZE                                                        \
