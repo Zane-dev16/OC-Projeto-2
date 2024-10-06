@@ -7,7 +7,7 @@
 #define N 1024
 
 void handle_error(char *outstring);
-void transpose(const short int m[N][N], short int res[N][N]) {
+void transpose(int16_t m[N][N], int16_t res[N][N]) {
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
             res[i][j] = m[j][i];
@@ -15,7 +15,7 @@ void transpose(const short int m[N][N], short int res[N][N]) {
     }
 }
 
-void setup(short int m1[N][N], short int m2[N][N], const short int m3[N][N]) {
+void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
 //    int16_t tmp[N][N];
     memset(m3, 0, sizeof(int16_t) * N * N);
     for (size_t i = 0; i < N; ++i) {
@@ -34,12 +34,13 @@ void setup(short int m1[N][N], short int m2[N][N], const short int m3[N][N]) {
 
 
 
-void multiply_matrices(const short int factor1[N][N], short int factor2[N][N],
+void multiply_matrices(int16_t const factor1[N][N], int16_t const factor2[N][N],
                        int16_t res[N][N]) {
     int16_t tmp[N][N];                    
     transpose(factor2, tmp);     
-
+    printf("a\n");
     for (size_t i = 0; i < N; ++i) {
+        printf("line\n");
         for (size_t j = 0; j < N; ++j) {
             for (size_t k = 0; k < N; ++k) {
                 res[i][j] += factor1[i][k] * tmp[j][k];
