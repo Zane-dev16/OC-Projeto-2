@@ -4,7 +4,7 @@
 #include <stdlib.h> // exit()
 #include <string.h> // memset()
 
-#define N 512
+#define N 1024
 
 void handle_error(char *outstring);
 void transpose(int16_t m[N][N], int16_t res[N][N]) {
