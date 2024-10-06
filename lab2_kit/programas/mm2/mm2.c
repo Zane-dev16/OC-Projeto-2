@@ -19,9 +19,12 @@ void transpose(int16_t m[N][N], int16_t res[N][N]) {
 
 void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
 //    int16_t tmp[N][N];
+    printf("strat\n");
     memset(m3, 0, sizeof(int16_t) * N * N);
+    printf("strat1\n");
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
+            printf("%d\n", i);
             m1[i][j] = (i + j) % 8 + 1;
             m2[i][j] = (N - i + j) % 8 + 1;
         }
