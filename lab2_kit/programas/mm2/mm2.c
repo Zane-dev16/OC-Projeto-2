@@ -8,8 +8,10 @@
 
 void handle_error(char *outstring);
 void transpose(int16_t m[N][N], int16_t res[N][N]) {
+    printf("strat\n");
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
+            printf("%d\n", i);
             res[i][j] = m[j][i];
         }
     }
@@ -34,9 +36,10 @@ void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
 
 
 
-void multiply_matrices(int16_t const factor1[N][N], int16_t const factor2[N][N],
+void multiply_matrices(int16_t const factor1[N][N], int16_t factor2[N][N],
                        int16_t res[N][N]) {
-    int16_t tmp[N][N];                    
+    int16_t tmp[N][N];
+    printf("b\n");                    
     transpose(factor2, tmp);     
     printf("a\n");
     for (size_t i = 0; i < N; ++i) {
