@@ -4,14 +4,12 @@
 #include <stdlib.h> // exit()
 #include <string.h> // memset()
 
-#define N 1024
+#define N 512
 
 void handle_error(char *outstring);
 void transpose(int16_t m[N][N], int16_t res[N][N]) {
-    printf("strat\n");
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
-            printf("%d\n", i);
             res[i][j] = m[j][i];
         }
     }
@@ -38,14 +36,9 @@ void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
 
 void multiply_matrices(int16_t const factor1[N][N], int16_t factor2[N][N],
                        int16_t res[N][N]) {
-
-    printf("b\n");                    
     int16_t tmp[N][N];
-    printf("c\n");                   
     transpose(factor2, tmp);     
-    printf("a\n");
     for (size_t i = 0; i < N; ++i) {
-        printf("line\n");
         for (size_t j = 0; j < N; ++j) {
             for (size_t k = 0; k < N; ++k) {
                 res[i][j] += factor1[i][k] * tmp[j][k];
@@ -118,9 +111,7 @@ int main() {
     /* Gets the starting time in microseconds */
     long long const start_usec = PAPI_get_real_usec();
 
-    printf("b\n"); 
     multiply_matrices(mul1, mul2, res);
-    printf("b\n"); 
     /************************************/
 
     /* Gets the ending time in clock cycles */
