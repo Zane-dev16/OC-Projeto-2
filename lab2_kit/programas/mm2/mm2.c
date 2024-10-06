@@ -19,9 +19,7 @@ void transpose(int16_t m[N][N], int16_t res[N][N]) {
 
 void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
 //    int16_t tmp[N][N];
-    printf("strat\n");
     memset(m3, 0, sizeof(int16_t) * N * N);
-    printf("strat1\n");
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
             
@@ -29,7 +27,6 @@ void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
             m2[i][j] = (N - i + j) % 8 + 1;
         }
     }
-    printf("finish\n");  
     /************************************/
     /*      MATRIX TRANSPOSITION        */
     /************************************/
@@ -121,8 +118,9 @@ int main() {
     /* Gets the starting time in microseconds */
     long long const start_usec = PAPI_get_real_usec();
 
+    printf("b\n"); 
     multiply_matrices(mul1, mul2, res);
-
+    printf("b\n"); 
     /************************************/
 
     /* Gets the ending time in clock cycles */
