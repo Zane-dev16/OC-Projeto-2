@@ -16,23 +16,14 @@ void transpose(int16_t m[N][N], int16_t res[N][N]) {
 }
 
 void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
-    //int16_t tmp[N][N];
     memset(m3, 0, sizeof(int16_t) * N * N);
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
-            
             m1[i][j] = (i + j) % 8 + 1;
             m2[i][j] = (N - i + j) % 8 + 1;
         }
     }
-    /************************************/
-    /*      MATRIX TRANSPOSITION        */
-    /************************************/
-
-    //transpose(tmp, m2);
 }
-
-
 
 void multiply_matrices(int16_t const factor1[N][N], int16_t factor2[N][N],
                        int16_t res[N][N]) {
@@ -69,8 +60,11 @@ int main() {
         handle_error("create_eventset");
     }
 
-    /* Add L1 data cache misses to the Event Set */
+    /* Add L1 and L2 data cache misses to the Event Set */
     if (PAPI_add_event(EventSet, PAPI_L1_DCM) != PAPI_OK) {
+        handle_error("add_event");
+    }
+    if (PAPI_add_event(EventSet, PAPI_L2_DCM) != PAPI_OK) {
         handle_error("add_event");
     }
     /* Add load instructions to the Event Set */
@@ -88,17 +82,19 @@ int main() {
     }
 
     /* Read the counting of events in the Event Set */
-    long long values[3];
+    long long values[4];  // Update to store L1 DCM, L2 DCM, LD, and SR
     if (PAPI_read(EventSet, values) != PAPI_OK) {
         handle_error("read");
     }
 
     fprintf(stdout, "After resetting counter 'PAPI_L1_DCM' [x10^6]: %f\n",
             (double)(values[0]) / 1000000);
-    fprintf(stdout, "After resetting counter 'PAPI_LD_INS' [x10^6]: %f\n",
+    fprintf(stdout, "After resetting counter 'PAPI_L2_DCM' [x10^6]: %f\n",
             (double)(values[1]) / 1000000);
-    fprintf(stdout, "After resetting counter 'PAPI_SR_INS' [x10^6]: %f\n",
+    fprintf(stdout, "After resetting counter 'PAPI_LD_INS' [x10^6]: %f\n",
             (double)(values[2]) / 1000000);
+    fprintf(stdout, "After resetting counter 'PAPI_SR_INS' [x10^6]: %f\n",
+            (double)(values[3]) / 1000000);
 
     /* Start counting events in the Event Set */
     if (PAPI_start(EventSet) != PAPI_OK) {
@@ -127,10 +123,12 @@ int main() {
 
     fprintf(stdout, "After stopping counter 'PAPI_L1_DCM'  [x10^6]: %f\n",
             (double)(values[0]) / 1000000);
-    fprintf(stdout, "After stopping counter 'PAPI_LD_INS'  [x10^6]: %f\n",
+    fprintf(stdout, "After stopping counter 'PAPI_L2_DCM'  [x10^6]: %f\n",
             (double)(values[1]) / 1000000);
-    fprintf(stdout, "After stopping counter 'PAPI_SR_INS'  [x10^6]: %f\n",
+    fprintf(stdout, "After stopping counter 'PAPI_LD_INS'  [x10^6]: %f\n",
             (double)(values[2]) / 1000000);
+    fprintf(stdout, "After stopping counter 'PAPI_SR_INS'  [x10^6]: %f\n",
+            (double)(values[3]) / 1000000);
 
     fprintf(stdout, "Wall clock cycles [x10^6]: %f\n",
             (double)(end_cycles - start_cycles) / 1000000);
